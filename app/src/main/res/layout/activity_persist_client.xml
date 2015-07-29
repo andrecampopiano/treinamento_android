@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/userName"/>
+
+    <EditText
+        android:id="@+id/editTextAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/age"/>
+
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/address"/>
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/phone"/>
+
+    <EditText
+        android:id="@+id/editTextCep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/cep"/>
+
+    <Button
+        android:id="@+id/btnCep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/find"/>
+
+    <EditText
+        android:id="@+id/editTextTipoLogradouro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tipoLogradouro"/>
+
+    <EditText
+        android:id="@+id/editTextLogradouro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/logradouro"/>
+
+    <EditText
+        android:id="@+id/editTextBairro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/bairro"/>
+
+    <EditText
+        android:id="@+id/editTextCidade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/cidade"/>
+
+    <EditText
+        android:id="@+id/editTextEstado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/estado"/>
+
+
+</LinearLayout>
+
+</ScrollView>

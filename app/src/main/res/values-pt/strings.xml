@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minha Aplicação</string>
+    <string name="hello_world">Olá mundo!</string>
+    <string name="action_settings">Configuração</string>
+    <string name="age">Idade</string>
+    <string name="login">Entrar</string>
+    <string name="userName">Usuário</string>
+    <string name="password">Senha</string>
+    <string name="address">Endereço</string>
+    <string name="phone">Telefone</string>
+    <string name="action_add">Adicionar</string>
+    <string name="required_field">Campo Obrigatório</string>
+    <string name="success">Sucesso</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_delete">Deletar</string>
+    <string name="confirm_process">Você tem certeza?</string>
+    <string name="confirm_title">Deletar</string>
+    <string name="confirm_yes">Sim</string>
+    <string name="confirm_no">Não</string>
+    <string name="cep">Cep</string>
+    <string name="find">Encontrar</string>
+    <string name="tipoLogradouro">Tipo Logradouro</string>
+    <string name="logradouro">Logradouro</string>
+    <string name="bairro">Bairro</string>
+    <string name="cidade">Cidade</string>
+    <string name="estado">Estado</string>
+    <string name="loading">Carregando...</string>
+</resources>
