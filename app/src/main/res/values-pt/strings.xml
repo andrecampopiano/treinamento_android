@@ -26,4 +26,6 @@
     <string name="cidade">Cidade</string>
     <string name="estado">Estado</string>
     <string name="loading">Carregando...</string>
+    <string name="userInvalid">Usuario Inválido</string>
+    <string name="cep_invalido">Cep Inválido</string>
 </resources>

@@ -1,13 +1,20 @@
 package com.example.camara.myapplication.controller;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,41 +58,107 @@ public class ClientPersistActivity extends AppCompatActivity {
 
     }
 
-    private void bindParameters(){
+
+    private void bindParameters() {
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            client = (Client)extras.getParcelable(CLIENT_PARAM);
-            if(client == null){
+        if (extras != null) {
+            client = (Client) extras.getParcelable(CLIENT_PARAM);
+            if (client == null) {
                 throw new IllegalArgumentException();
             }
             bindClientForm();
         }
     }
 
-    private void bindFields(){
-        age = (EditText) findViewById(R.id.editTextAge);
+    private void bindFields() {
+
         name = (EditText) findViewById(R.id.editTextName);
+        name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_edittext_client, 0);
+        name.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (name.getRight() - name.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                        final Intent goToSOContacts = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                        goToSOContacts.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+                        startActivityForResult(goToSOContacts, 999);
+                    }
+                }
+                return false;
+            }
+        });
+        age = (EditText) findViewById(R.id.editTextAge);
         address = (EditText) findViewById(R.id.editTextAddress);
         phone = (EditText) findViewById(R.id.editTextPhone);
 
         cep = (EditText) findViewById(R.id.editTextCep);
+        cep.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_cep, 0);
+        cep.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (cep.getRight() - cep.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+
+                        if (FormHelper.requiredValidade(ClientPersistActivity.this, cep) && cep.length() == 8) {
+                            new GetAddressByCep().execute(cep.getText().toString());
+                        } else {
+                            Toast.makeText(ClientPersistActivity.this, R.string.cep_invalido, Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                }
+                return false;
+            }
+        });
+
         tipoLogradouro = (EditText) findViewById(R.id.editTextTipoLogradouro);
         logradouro = (EditText) findViewById(R.id.editTextLogradouro);
         bairro = (EditText) findViewById(R.id.editTextBairro);
         cidade = (EditText) findViewById(R.id.editTextCidade);
         estado = (EditText) findViewById(R.id.editTextEstado);
-        bindButtonFindCep();
+
     }
 
-    private void bindButtonFindCep(){
-        btnFind = (Button) findViewById(R.id.btnCep);
-        btnFind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new GetAddressByCep().execute(cep.getText().toString());
+    /**
+     * @see <a href="http://developer.android.com/training/basics/intents/result.html">Getting a Result from an Activity</a>
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 999) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    final Uri contactUri = data.getData();
+                    final String[] projection = {
+                            ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER
+                    };
+                    final Cursor cursor = getContentResolver().query(contactUri, projection, null, null, null);
+                    cursor.moveToFirst();
+
+                    name.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Identity.DISPLAY_NAME)));
+                    phone.setText(cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+
+                    cursor.close();
+                } catch (Exception e) {
+                    Log.d("TAG", "Unexpected error");
+                }
             }
-        });
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,7 +174,7 @@ public class ClientPersistActivity extends AppCompatActivity {
             if (FormHelper.requiredValidade(ClientPersistActivity.this, name, age, address, phone)) {
                 bindClient();
                 client.save();
-                Toast.makeText(ClientPersistActivity.this, getString(R.string.success),Toast.LENGTH_LONG).show();
+                Toast.makeText(ClientPersistActivity.this, getString(R.string.success), Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -110,7 +183,7 @@ public class ClientPersistActivity extends AppCompatActivity {
     }
 
     private void bindClient() {
-        if(client == null){
+        if (client == null) {
             client = new Client();
 
         }
@@ -144,7 +217,7 @@ public class ClientPersistActivity extends AppCompatActivity {
         estado.setText(client.getClientAddress().getEstado());
     }
 
-    private class GetAddressByCep extends AsyncTask<String, Void, ClientAddress>{
+    private class GetAddressByCep extends AsyncTask<String, Void, ClientAddress> {
 
         private ProgressDialog progressDialog;
 
@@ -162,15 +235,17 @@ public class ClientPersistActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ClientAddress clientAddress) {
-            tipoLogradouro.setText(clientAddress.getTipoDeLogradouro());
-            logradouro.setText(clientAddress.getLogradouro());
-            bairro.setText(clientAddress.getBairro());
-            cidade.setText(clientAddress.getCidade());
-            estado.setText(clientAddress.getEstado());
+            if (clientAddress != null) {
+
+                tipoLogradouro.setText(clientAddress.getTipoDeLogradouro());
+                logradouro.setText(clientAddress.getLogradouro());
+                bairro.setText(clientAddress.getBairro());
+                cidade.setText(clientAddress.getCidade());
+                estado.setText(clientAddress.getEstado());
+            }
             progressDialog.dismiss();
         }
     }
-
 
 
 }

@@ -26,6 +26,7 @@
     <string name="app_name">Minha Aplicação</string>
     <string name="bairro">Bairro</string>
     <string name="cep">Cep</string>
+    <string name="cep_invalido">Cep Inválido</string>
     <string name="cidade">Cidade</string>
     <string name="confirm_no">Não</string>
     <string name="confirm_process">Você tem certeza?</string>
@@ -42,5 +43,6 @@
     <string name="required_field">Campo Obrigatório</string>
     <string name="success">Sucesso</string>
     <string name="tipoLogradouro">Tipo Logradouro</string>
+    <string name="userInvalid">Usuario Inválido</string>
     <string name="userName">Usuário</string>
 </resources>

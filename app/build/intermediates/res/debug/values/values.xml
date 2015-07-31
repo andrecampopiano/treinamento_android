@@ -252,6 +252,7 @@
     <string name="app_name">My Application</string>
     <string name="bairro">Neighborhood</string>
     <string name="cep">Cep</string>
+    <string name="cep_invalido">Cep Inválido</string>
     <string name="cidade">City</string>
     <string name="confirm_no">No</string>
     <string name="confirm_process">Are you sure?</string>
@@ -286,6 +287,7 @@
     <string name="required_field">Requered Field</string>
     <string name="success">Success</string>
     <string name="tipoLogradouro">Type</string>
+    <string name="userInvalid">Usuario Inválido</string>
     <string name="userName">User name</string>
     <!-- From: file:/Users/andre/AndroidStudioProjects/MyApplication/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>

@@ -69,7 +69,6 @@ public class ClientContract {
 
     public static List<Client> bindList(Cursor cursor){
         List<Client> clients = new ArrayList<>();
-        Client client;
         while(cursor.moveToNext()){
             clients.add(bind(cursor));
         }

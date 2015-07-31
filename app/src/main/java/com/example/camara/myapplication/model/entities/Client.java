@@ -3,10 +3,8 @@ package com.example.camara.myapplication.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.camara.myapplication.model.persistence.MemoryClientRepository;
 import com.example.camara.myapplication.model.persistence.SQLiteClientRepository;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
